@@ -7,7 +7,6 @@ const Css: React.FC<Props> = ({ data = defaultData }) => {
     const style = document.createElement("style");
 
     style.id = "CustomCss";
-    style.type = "text/css";
     style.appendChild(document.createTextNode(data.input || ""));
 
     document.head.appendChild(style);

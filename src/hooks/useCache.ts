@@ -12,7 +12,7 @@ export function useCachedEffect(
 ) {
   const time = useTime("absolute");
   const prevDeps = useRef(deps);
-  const prevExpires = useRef<Date | number>();
+  const prevExpires = useRef<Date | number>(0);
 
   useEffect(() => {
     const depsChanged = !areDepsEqual(prevDeps.current, deps);

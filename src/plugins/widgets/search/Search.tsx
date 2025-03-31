@@ -1,19 +1,11 @@
 import React, { FC, useMemo, useRef, useState } from "react";
-import { defineMessages, useIntl } from "react-intl";
+import { useTranslation } from "react-i18next"; // Import useTranslation hook
 
 import { getSuggestions } from "./getSuggestions";
 import Suggestions from "./Suggestions";
 import { Props, defaultData } from "./types";
 import { buildUrl, getSearchUrl, getSuggestUrl } from "./utils";
 import "./Search.sass";
-
-const messages = defineMessages({
-  placeholder: {
-    id: "plugins.search.placeholder",
-    description: "Placeholder text to show in the search box before typing",
-    defaultMessage: "Type to search",
-  },
-});
 
 const Search: FC<Props> = ({ data = defaultData }) => {
   const searchInput = useRef<HTMLInputElement>(null);
@@ -22,10 +14,10 @@ const Search: FC<Props> = ({ data = defaultData }) => {
   const [active, setActive] = useState<number>();
   const [suggestions, setSuggestions] = useState<string[]>();
 
-  const intl = useIntl();
+  const { t } = useTranslation(); // Initialize the translation function
   const placeholder = useMemo(
-    () => intl.formatMessage(messages.placeholder),
-    [intl],
+    () => t("plugins.search.placeholder", { defaultValue: "Type to search" }), // Use t for translation
+    [t],
   );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,7 +89,7 @@ const Search: FC<Props> = ({ data = defaultData }) => {
       <input
         autoFocus
         defaultValue=""
-        placeholder={placeholder}
+        placeholder={placeholder} // Use the translated placeholder
         ref={searchInput}
         tabIndex={1}
         type="text"

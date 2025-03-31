@@ -1,8 +1,8 @@
-const fs = require("fs");
-const { promisify } = require("util");
+import { readFileSync, writeFileSync } from "fs";
+import { promisify } from "util";
 const glob = promisify(require("glob"));
-const manageTranslations = require("react-intl-translations-manager").default;
-const parser = require("typescript-react-intl").default;
+import manageTranslations from "react-intl-translations-manager";
+import parser from "typescript-react-intl";
 
 // Add your language here
 // `xx` and `xx-XX` formats are accepted (e.g. 'en' or 'en-AU')
@@ -58,11 +58,11 @@ async function main() {
   // Extract messages from source
   const files = await glob("src/**/*.@(tsx|ts)");
   const messages = files
-    .map((file) => fs.readFileSync(file).toString())
+    .map((file) => readFileSync(file).toString())
     .reduce((carry, contents) => carry.concat(parser(contents)), []);
 
   // Write messages to file
-  fs.writeFileSync(
+  writeFileSync(
     "./src/locales/extractedMessages/messages.json",
     JSON.stringify(messages, null, 2),
   );

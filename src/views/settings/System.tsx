@@ -1,22 +1,17 @@
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { useTranslation } from "react-i18next"; // Import useTranslation hook
 import { db } from "../../db/state";
 import { useKey } from "../../lib/db/react";
 import TimeZoneInput from "../shared/timeZone/TimeZoneInput";
 
 const System: React.FC = () => {
+  const { t } = useTranslation(); // Initialize the translation function
   const [locale, setLocale] = useKey(db, "locale");
   const [timeZone, setTimeZone] = useKey(db, "timeZone");
 
   return (
     <div>
-      <h2>
-        <FormattedMessage
-          id="settings"
-          defaultMessage="Settings"
-          description="Settings title"
-        />
-      </h2>
+      <h2>{t("settings", { defaultValue: "Settings" })}</h2> {/* Replace FormattedMessage */}
 
       <label
         style={{
@@ -28,7 +23,7 @@ const System: React.FC = () => {
           margin: 0,
         }}
       >
-        <span>Language</span>
+        <span>{t("language", { defaultValue: "Language" })}</span> {/* Add translation */}
         <select
           value={locale}
           onChange={(event) => setLocale(event.target.value)}
@@ -181,7 +176,7 @@ const System: React.FC = () => {
           margin: 0,
         }}
       >
-        Time Zone
+        {t("timeZone", { defaultValue: "Time Zone" })} {/* Add translation */}
         <TimeZoneInput timeZone={timeZone} onChange={setTimeZone} />
       </label>
     </div>

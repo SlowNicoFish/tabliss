@@ -1,19 +1,19 @@
 import { useMemo } from "react";
-import { useIntl, MessageDescriptor } from "react-intl";
+import { useTranslation } from "react-i18next";
 
 export function useFormatMessages<K extends string>(
-  messsages: Record<K, MessageDescriptor>,
+  messages: Record<K, { defaultMessage: string }>, // Adjusted type to match i18next usage
 ): Record<K, string> {
-  const intl = useIntl();
+  const { t } = useTranslation();
 
   return useMemo(
     () =>
       Object.fromEntries(
-        Object.entries<MessageDescriptor>(messsages).map(([id, message]) => [
+        Object.entries(messages).map(([id, message]) => [
           id,
-          intl.formatMessage(message),
+          t(id, { defaultValue: message }), // Use `t` with a fallback
         ]),
       ),
-    [intl, messsages],
-  ) as any;
+    [t, messages],
+  ) as Record<K, string>;
 }
